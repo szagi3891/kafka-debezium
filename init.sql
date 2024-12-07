@@ -1,0 +1,7 @@
+CREATE PUBLICATION debezium_pub FOR ALL TABLES;
+CREATE TABLE my_table (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
