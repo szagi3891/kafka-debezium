@@ -15,8 +15,8 @@ const run = async () => {
   await producer.send({
     topic: 'your-topic', // Nazwa topicu
     messages: [
-      { value: 'Hello Kafka!' }, // Treść wiadomości
-      { key: 'my-key', value: 'Message with key' }, // Wiadomość z kluczem (opcjonalnie)
+      { value: 'Hello Kafka! hawe are ju' }, // Treść wiadomości
+      { key: 'my-key', value: 'Message with key3333' }, // Wiadomość z kluczem (opcjonalnie)
     ],
   });
 

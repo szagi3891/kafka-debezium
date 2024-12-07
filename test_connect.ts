@@ -5,7 +5,7 @@ const kafka = new Kafka({
     brokers: ['localhost:9092'], // Adresy brokerów Kafka
 });
 
-const consumer = kafka.consumer({ groupId: 'test-group2' });
+const consumer = kafka.consumer({ groupId: 'test-group' });
 
 await consumer.connect();
 await consumer.subscribe({

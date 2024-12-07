@@ -42,12 +42,18 @@ services:
   #   volumes:
   #     - /var/lib/kafka/data
 
+  # https://hub.docker.com/r/bashj79/kafka-kraft
+  # https://github.com/bashj79/kafka-kraft-docker
+
   kafka:
     image: bashj79/kafka-kraft
-    # environment:
-    #   - name=value
     ports:
       - "9092:9092"
+
+  magic:
+    image: "digitsy/kafka-magic"
+    ports:
+      - "8080:80"
 
   postgres:
     image: postgres:16.2-bullseye
