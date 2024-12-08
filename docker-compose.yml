@@ -38,7 +38,8 @@ services:
       KAFKA_BROKER: "kafka:9092"
 
   postgres:
-    image: postgres:16.2-bullseye
+    image: debezium/postgres:17-alpine
+    # image: postgres:16.2-bullseye
     container_name: debezium-postgres
     ports:
       - "5432:5432"
