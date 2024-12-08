@@ -8,6 +8,8 @@ const kafka = new Kafka({
 const consumer = kafka.consumer({ groupId: 'test-group' });
 
 await consumer.connect();
+console.info('connected ...');
+
 await consumer.subscribe({
     topic: 'your-topic',
     fromBeginning: true
