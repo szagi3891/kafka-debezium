@@ -2,7 +2,7 @@ import { Kafka } from 'npm:kafkajs';
 
 const kafka = new Kafka({
     clientId: 'my-app',
-    brokers: ['localhost:9092'], // Adresy brokerów Kafka
+    brokers: ['127.0.0.1:9092'], // Adresy brokerów Kafka
 });
 
 const consumer = kafka.consumer({ groupId: 'test-group' });
