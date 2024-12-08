@@ -20,3 +20,9 @@ ping kafka
 lub
 nslookup kafka
 
+
+
+repllikacja z postgresa poprzez debezium do kafkowego tematu moze być całkowicie asynchroniczna (wiadomości mogą mieć pomieszaną kolejność)
+wazne zeby rekordy miały updatedAt.
+jeśli rekordy się pomieszają, to najwyzej ten starszy zostanie odrzucony po stronie widoku
+
