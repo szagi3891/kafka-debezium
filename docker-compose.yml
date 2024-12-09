@@ -52,7 +52,8 @@ services:
     command: ["postgres", "-c", "wal_level=logical"]
 
   kafka-connect:
-    image: debezium/connect:2.4
+    image: quay.io/debezium/connect:latest
+    # image: debezium/connect:2.4
     container_name: debezium-kafka-connect
     ports:
       - "8083:8083"

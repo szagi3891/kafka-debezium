@@ -1,12 +1,23 @@
 import pg from 'npm:pg';
+import { timeout } from '@reactive/utils';
+
+const pgUser = 'debezium_user';
+const pgPass = 'my_password';
+const pgDb   = 'my_database';
+
+// const pgUser = 'postgres';
+// const pgPass = '123';
+// const pgDb   = 'cdc-using-debezium';
+
 
 const client = new pg.Client({
     host: '127.0.0.1',
-    user: 'debezium_user',
-    password: 'my_password',
+    user: pgUser,
+    password: pgPass,
     port: 5432,
-    database: 'my_database',  
+    database: pgDb, 
 });
+
 
 await client.connect()
  
@@ -53,21 +64,18 @@ const createTable = async () => {
             created_at TIMESTAMP DEFAULT NOW()
         );
     `);
+
     console.info('utworzono tabelę', created.rows);
+
+    const created2 = await client.query(`
+        ALTER TABLE "my_table"
+        REPLICA IDENTITY FULL;
+    `);
+    console.info('utworzono tabelę2', created2.rows);
+
 }
 
 await createTable();
-
-// const getList = async () => {
-//     const resp = await fetch('http://localhost:8083/connector-plugins');
-//     console.info('code', resp.status);
-//     const text = await resp.text();
-//     console.info('getList', text);
-// };
-
-// await getList();
-
-// console.info('\n\n\n');
 
 const createConnector = async () => {
     const url = "http://localhost:8083/connectors";
@@ -98,12 +106,17 @@ const createConnector = async () => {
             "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
             "database.hostname": "postgres",
             "database.port": "5432",
-            "database.user": "debezium_user",
-            "database.password": "my_password",
-            "database.dbname": "my_database",
+            "database.user": pgUser,
+            "database.password": pgPass,
+            "database.dbname": pgDb,
             "database.server.id": "184054",
             "table.include.list": "public.my_table",
-            "topic.prefix": "cdc-using-debezium-topic"
+            "topic.prefix": "cdc-using-debezium-topic",
+
+            "after.state.only": "false",
+            "plugin.name": "pgoutput",
+            "key.converter.schemas.enable": "false",
+            "value.converter.schemas.enable": "false",
         },
     };
 
@@ -126,8 +139,63 @@ const createConnector = async () => {
     console.log("Connector created successfully:", await response.json());
 };
 
-await createConnector();
+try {
+    await createConnector();
+} catch (err) {
+    console.error(err);
+}
 
+await timeout(5_000);
+
+// const check = async () => {
+
+//     const url = 'http://localhost:8083/connector-plugins/postgresql/config/validate';
+
+//     const headers = {
+//         'Accept': 'application/json',
+//         "Content-Type": "application/json",
+//     };
+
+//     const response = await fetch(url);
+
+//     console.info('status', response.status);
+//     const text = await response.text();
+//     console.info('text', text);
+// }
+
+// await check();
+
+
+const insert = async () => {
+
+    const created2 = await client.query(`
+        INSERT INTO my_table(name) values(
+            'bar'
+        );
+    `);
+    
+    console.info('inserted', created2.rowCount);
+
+    const updata = await client.query(`
+        UPDATE my_table
+        SET name = 'kopytko'
+        WHERE id = 1;
+    `);
+
+    console.info('update', updata.rowCount);
+
+    await timeout(1000);
+
+    const updata2 = await client.query(`
+        UPDATE my_table
+        SET name = 'kopytko słonia'
+        WHERE id = 1;
+    `);
+
+    console.info('update', updata2.rowCount);
+}
+
+await insert();
 
 
 // const aaaa = await client.query(`CREATE PUBLICATION debezium_pub FOR ALL TABLES`);
