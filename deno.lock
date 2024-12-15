@@ -8,7 +8,9 @@
     "npm:@types/node@*": "22.5.4",
     "npm:kafkajs@*": "2.2.4",
     "npm:mobx@*": "6.13.5",
+    "npm:pg-logical-replication@^2.0.7": "2.0.7",
     "npm:pg@*": "8.13.1",
+    "npm:pg@^8.13.1": "8.13.1",
     "npm:superjson@*": "2.2.1",
     "npm:unws@*": "0.2.4_ws@8.18.0",
     "npm:xml-js@*": "1.6.11",
@@ -57,6 +59,9 @@
         "is-what"
       ]
     },
+    "eventemitter2@6.4.9": {
+      "integrity": "sha512-JEPTiaOt9f04oa6NOkc4aH+nVp5I3wEjpHbIPqfgCdD5v5bUzy7xQqwcVO2aDQgOWhI28da57HksMrzK9HlRxg=="
+    },
     "is-what@4.1.16": {
       "integrity": "sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A=="
     },
@@ -77,6 +82,13 @@
     },
     "pg-int8@1.0.1": {
       "integrity": "sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw=="
+    },
+    "pg-logical-replication@2.0.7": {
+      "integrity": "sha512-G6fyOYN9jIz4RdKC2t2NrYp5nw8aZ7cMfH0BOISYwl4M16DWg8+LYQZbY8LMyGurmms6+igALbsgpnCOS9a5Fw==",
+      "dependencies": [
+        "eventemitter2",
+        "pg"
+      ]
     },
     "pg-pool@3.7.0_pg@8.13.1": {
       "integrity": "sha512-ZOBQForurqh4zZWjrgSwwAtzJ7QiRX0ovFkZr2klsen3Nm0aoh33Ls0fzfv3imeH/nw/O27cjdz5kzYJfeGp/g==",
@@ -172,7 +184,14 @@
   "workspace": {
     "dependencies": [
       "jsr:@reactive/utils@~0.5.160",
-      "jsr:@std/assert@1"
-    ]
+      "jsr:@std/assert@1",
+      "npm:pg-logical-replication@^2.0.7",
+      "npm:pg@^8.13.1"
+    ],
+    "packageJson": {
+      "dependencies": [
+        "npm:postgres@^3.4.5"
+      ]
+    }
   }
 }
